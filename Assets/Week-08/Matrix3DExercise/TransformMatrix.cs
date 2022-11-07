@@ -33,8 +33,6 @@ namespace Week08
             T.m03 = position.x;
             T.m13 = position.y;
             T.m23 = position.z;
-            //The translation matrix should target the last column, and not the 1's in the translation matrix. 
-            //access to the matrix can also be written as T[0,0]
 
             // TODO create the scale matrix
             Matrix4x4 S = Matrix4x4.identity;
@@ -42,35 +40,33 @@ namespace Week08
             S.m11 = scale.y;
             S.m22 = scale.z;
 
+
             // TODO create three rotation matrices, one per rotation axis/euler angle
             Matrix4x4 RX = Matrix4x4.identity;
+            float angleRadX = Mathf.Deg2Rad * rotation.x;
+            RX.m11 = Mathf.Cos(angleRadX);
+            RX.m21 = Mathf.Sin(angleRadX);
+            RX.m12 = -Mathf.Sin(angleRadX);
+            RX.m22 = Mathf.Cos(angleRadX);
             Matrix4x4 RY = Matrix4x4.identity;
+            float angleRadY = Mathf.Deg2Rad * rotation.y;
+            RY.m00 = Mathf.Cos(angleRadY);
+            RY.m02 = Mathf.Sin(angleRadY);
+            RY.m20 = -Mathf.Sin(angleRadY);
+            RY.m22 = Mathf.Cos(angleRadY);
             Matrix4x4 RZ = Matrix4x4.identity;
             // rotation.z/RZ is given as an example
             float angleRad = Mathf.Deg2Rad * rotation.z;
-            RZ.m00 = Mathf.Cos(angleRad);
+            RZ.m00 =Mathf.Cos(angleRad);
             RZ.m10 = Mathf.Sin(angleRad);
             RZ.m01 = -Mathf.Sin(angleRad);
             RZ.m11 = Mathf.Cos(angleRad);
-
-            float angleRadx = Mathf.Deg2Rad * rotation.x;
-            RX.m11 = Mathf.Cos(angleRadx);
-            RX.m21 = Mathf.Sin(angleRadx);
-            RX.m12 = -Mathf.Sin(angleRadx);
-            RX.m22 = Mathf.Cos(angleRadx);
-
-            float angleRady = Mathf.Deg2Rad * rotation.y;
-            RY.m00 = Mathf.Cos(angleRady);
-            RY.m02 = Mathf.Sin(angleRady);
-            RY.m20 = -Mathf.Sin(angleRady);
-            RY.m22 = Mathf.Cos(angleRady);
 
             // TODO concatenate the three matrices together
             // remember that, when using euler angles, rotation order matters!
             // by default, Unity implements the order Rotation Z -> then X -> then Y
             // notice that, since we use column vectors, transformations are applied from RIGHT TO LEFT
-            Matrix4x4 R = RY * RX * RZ; // R = multiply RX, RY and RZ in the CORRECT ORDER
-
+            Matrix4x4 R = RY * RX* RZ; // R = multiply RX, RY and RZ in the CORRECT ORDER
 
             // TODO concatenate the transformations into a single matrix
             // we first Scale -> then Rotate -> and then Translate
